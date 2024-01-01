@@ -1,0 +1,41 @@
+.hw-20 {
+  height: 20px;
+  width: 20px;
+}
+
+.hw-25 {
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+}
+.hw-25 path {
+  color: #acb0b9;
+}
+
+.hw-35 {
+  height: 35px;
+  aspect-ratio: 1/1;
+}
+.hw-35 path {
+  color: white;
+}
+
+.hw-30 {
+  height: 30px;
+  width: 30px;
+  margin: 0 15px 0 15px;
+  cursor: pointer;
+}
+.hw-30 path {
+  color: #acb0b9;
+}
+
+
+.bell-icon {
+  position: relative;
+  left: -20px;
+}
+
+.white path {
+  color: white;
+}

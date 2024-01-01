@@ -9,7 +9,6 @@
   justify-content: center;
 }
 
-
 /* -------------------- */
 .app {
   height: 100vh;
@@ -46,20 +45,13 @@
 .home-icon > .message-icon {
   width: 80%;
   aspect-ratio: 1/1;
-} 
+}
 
 .nav-icon {
   width: 60%;
   aspect-ratio: 1/1;
   margin-top: 30px;
-  opacity: .5;
-} 
-.hw-35 {
-  height: 35px;
-  aspect-ratio: 1/1;
-}
-.hw-35 path {
-  color: white;
+  opacity: 0.5;
 }
 
 .nav-icon:hover {
@@ -82,9 +74,9 @@
   align-items: center;
   overflow-y: scroll;
 }
-.left-aside-section > section::-webkit-scrollbar { 
+.left-aside-section > section::-webkit-scrollbar {
   width: 0 !important;
-  display: none; 
+  display: none;
 }
 
 /* title nav */
@@ -140,13 +132,12 @@ nav > .title-option > select {
 
   background-color: white;
   border: 1px solid #cdd1da;
-  outline: none; 
+  outline: none;
   font-size: 16px;
 }
 nav > .title-option > select > option {
   border-radius: 0px;
 }
-
 
 nav > .title-option > div {
   height: 90%;
@@ -154,7 +145,7 @@ nav > .title-option > div {
   position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   border: 1px solid #cdd1da;
 }
@@ -166,12 +157,6 @@ nav > .title-option > div {
   border: none;
   font-size: 18px;
   padding: 0 5px 0 5px;
-}
-.hw-25 {
-  height: 25px;
-  width: 25px;
-  margin: 5px;
-  cursor: pointer;
 }
 
 /* right aside */
