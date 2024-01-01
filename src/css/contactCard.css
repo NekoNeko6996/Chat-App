@@ -40,7 +40,7 @@ a {
   margin: 5px 0 5px 0;
 }
 .contact-card-container:hover {
-    border-color: #665dfe;
+  border-color: #665dfe;
 }
 
 .contact-card-container > img {
@@ -54,9 +54,17 @@ a {
   width: 75%;
   margin-left: 10px;
 }
+.content-container > span > .name {
+  font-weight: 600;
+  font-size: 18px;
+}
+.content-container > span > .time {
+  color: #909299;
+}
 
 .content-container > span > .message {
   height: 25px;
+  color: #b9bdc5;
 }
 
 .never-read-message {

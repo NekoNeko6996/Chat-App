@@ -1,28 +1,55 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
 // css
 import "../css/contactCard.css";
 
 //
-function ContactCard() {
+interface ContactCardProps {
+  name: string;
+  messageUnreadAmount: number;
+  key?: number | string;
+  time: { hour: number; minutes: number };
+  path: string;
+}
+
+//
+const into2Char = (number: number) => number.toString().padStart(2, "0");
+
+//
+const ContactCard: React.FC<ContactCardProps> = ({
+  name,
+  messageUnreadAmount,
+  key,
+  time,
+  path,
+}) => {
   return (
-    <a href="/" className="contact-card-container flex-center">
+    <Link to={path} className="contact-card-container flex-center" key={key}>
       <img
         src="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
         alt="avatar"
       />
       <div className="content-container flex-space-between-column">
         <span className="flex-space-between-row">
-          <p className="text-overflow-ellipsis">John</p>
-          <p className="time nowrap">12:42 pm</p>
+          <p className="text-overflow-ellipsis name">{name}</p>
+          <p className="time nowrap">{`${into2Char(time.hour)}:${into2Char(
+            time.minutes
+          )} ${time.hour > 12 ? "pm" : "am"}`}</p>
         </span>
         <span className="flex-space-between-row">
           <p className="message text-overflow-ellipsis">
             Yes, what you should present first, second and third…
           </p>
-          <p className="never-read-message flex-center">99+</p>
+          {messageUnreadAmount === 0 ? null : (
+            <p className="never-read-message flex-center">
+              {messageUnreadAmount > 99 ? "99+" : messageUnreadAmount}
+            </p>
+          )}
         </span>
       </div>
-    </a>
+    </Link>
   );
-}
+};
 
 export default ContactCard;

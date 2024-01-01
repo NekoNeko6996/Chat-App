@@ -54,12 +54,16 @@
   margin-top: 30px;
   opacity: .5;
 } 
-.nav-icon-img {
-  width: 70%;
+.hw-35 {
+  height: 35px;
   aspect-ratio: 1/1;
 }
+.hw-35 path {
+  color: white;
+}
+
 .nav-icon:hover {
-  opacity: .8;
+  opacity: 1;
 }
 
 /* ------- */
@@ -151,7 +155,7 @@ nav > .title-option > div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  
+  align-items: center;
   border: 1px solid #cdd1da;
 }
 .title-option > div > input {
@@ -163,10 +167,10 @@ nav > .title-option > div {
   font-size: 18px;
   padding: 0 5px 0 5px;
 }
-.title-option > div > img {
-  height: calc(100% - 2px);
-  aspect-ratio: 1/1;
-  border-left: none;
+.hw-25 {
+  height: 25px;
+  width: 25px;
+  margin: 5px;
   cursor: pointer;
 }
 
