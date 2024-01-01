@@ -1,0 +1,70 @@
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-space-between-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.flex-space-between-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.text-overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nowrap {
+  text-wrap: nowrap;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* --------------- */
+.contact-card-container {
+  height: 80px;
+  width: 90%;
+
+  border: 1px solid #cdd1da;
+  border-radius: 5px;
+  flex-direction: row;
+  color: black;
+  position: relative;
+  padding: 10px;
+  margin: 5px 0 5px 0;
+}
+.contact-card-container:hover {
+    border-color: #665dfe;
+}
+
+.contact-card-container > img {
+  height: 60px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+.contact-card-container > .content-container {
+  height: 60px;
+  width: 75%;
+  margin-left: 10px;
+}
+
+.content-container > span > .message {
+  height: 25px;
+}
+
+.never-read-message {
+  height: 20px;
+  max-width: 50px;
+  background-color: #665dfe;
+  color: white;
+  margin-left: 10px;
+  padding: 0 2px 0 2px;
+  border-radius: 4px;
+}

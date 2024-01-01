@@ -1,0 +1,184 @@
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* -------------------- */
+.app {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* --- aside --- */
+.app-left-aside {
+  height: 100vh;
+  width: 500px;
+
+  border-right: 1px solid #cdd1da;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+.app-left-aside > nav {
+  height: 100%;
+  width: 70px;
+  position: relative;
+  background-color: #665dfe;
+}
+.app-left-aside > nav > .home-icon {
+  width: 60%;
+  aspect-ratio: 1/1;
+  margin-top: 20px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+.home-icon > .message-icon {
+  width: 80%;
+  aspect-ratio: 1/1;
+} 
+
+.nav-icon {
+  width: 60%;
+  aspect-ratio: 1/1;
+  margin-top: 30px;
+  opacity: .5;
+} 
+.nav-icon-img {
+  width: 70%;
+  aspect-ratio: 1/1;
+}
+.nav-icon:hover {
+  opacity: .8;
+}
+
+/* ------- */
+.left-aside-section {
+  width: calc(100% - 70px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.left-aside-section > section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+}
+.left-aside-section > section::-webkit-scrollbar { 
+  width: 0 !important;
+  display: none; 
+}
+
+/* title nav */
+.left-aside-section > nav {
+  height: 100px;
+  width: 100%;
+
+  border-bottom: 1px solid #cdd1da;
+  margin-bottom: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* title */
+nav > .title-container {
+  height: 40%;
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+nav > .title-container > span {
+  display: flex;
+  flex-direction: row;
+}
+nav > .title-container > span > .icons {
+  height: 30px;
+  aspect-ratio: 1/1;
+  border: 1px solid #cdd1da;
+  margin-left: 10px;
+}
+nav > .title-container > .title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+/* title option */
+nav > .title-option {
+  height: 40%;
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+nav > .title-option > select {
+  height: 90%;
+  width: 130px;
+
+  background-color: white;
+  border: 1px solid #cdd1da;
+  outline: none; 
+  font-size: 16px;
+}
+nav > .title-option > select > option {
+  border-radius: 0px;
+}
+
+
+nav > .title-option > div {
+  height: 90%;
+  width: 60%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  border: 1px solid #cdd1da;
+}
+.title-option > div > input {
+  height: calc(100% - 2px);
+  width: 80%;
+  outline: none;
+  background-color: white;
+  border: none;
+  font-size: 18px;
+  padding: 0 5px 0 5px;
+}
+.title-option > div > img {
+  height: calc(100% - 2px);
+  aspect-ratio: 1/1;
+  border-left: none;
+  cursor: pointer;
+}
+
+/* right aside */
+.app-right-aside {
+  height: 100vh;
+  width: 60px;
+
+  border-left: 1px solid #cdd1da;
+}
+
+/* ---- section ---- */
+.app-section {
+  flex-grow: 2;
+}
