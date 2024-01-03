@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
 // components
-import ContactCard from "./components/contactCard.tsx";
-import ChatZone from "./components/chatZone.tsx";
+import ContactCard from "../components/contactCard.tsx";
+import ChatZone from "../components/chatZone.tsx";
 import {
   Bell,
   Message,
@@ -11,13 +11,13 @@ import {
   User,
   Search,
   More,
-} from "./components/svgComponent.tsx";
+} from "../components/svgComponent.tsx";
 
 // css
-import "./css/App.css";
+import "../css/App.css";
 
 // icons
-import messageIcon from "./assets/icons/message.png";
+import messageIcon from "../assets/icons/message.png";
 
 // router
 // function Router () {

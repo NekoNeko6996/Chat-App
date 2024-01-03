@@ -62,13 +62,15 @@
   aspect-ratio: 1/1;
 }
 
-
-
 /* ---------------------------------- */
 .chat-zone-show-message {
   flex-grow: 2;
+  overflow-y: scroll;
 }
-
+.chat-zone-show-message::-webkit-scrollbar {
+  width: 0 !important;
+  display: none;
+}
 /* ---------------------------------- */
 .chat-zone-input {
   width: 100%;
@@ -80,6 +82,7 @@
   align-items: center;
   position: relative;
   justify-content: space-around;
+  padding: 5px 0 5px 0;
 }
 .chat-zone-input-text {
   width: 80%;

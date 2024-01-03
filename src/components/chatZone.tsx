@@ -11,9 +11,12 @@ import {
   Add,
   ToRightArrow,
 } from "../components/svgComponent";
+import UserMessageBox from "./messageBox";
 
 //
-interface ChatZoneProps {}
+type ChatZoneProps = {
+  data?: undefined;
+};
 
 //
 const ChatZone: React.FC<ChatZoneProps> = () => {
@@ -25,7 +28,7 @@ const ChatZone: React.FC<ChatZoneProps> = () => {
       method: "post",
       body: JSON.stringify({
         messageString,
-        dateSend : new Date(),
+        dateSend: new Date(),
       }),
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +55,43 @@ const ChatZone: React.FC<ChatZoneProps> = () => {
           <More className="hw-30" />
         </div>
       </nav>
-      <section className="chat-zone-show-message"></section>
+      <section className="chat-zone-show-message">
+        <UserMessageBox
+          message="hello"
+          userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+          owner={false}
+        />
+        <UserMessageBox
+          message="hello"
+          userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+          owner={true}
+        />
+        <UserMessageBox
+          message="hello"
+          userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+          owner={false}
+        />
+        <UserMessageBox
+          message="hello"
+          userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+          owner={true}
+        />
+        <UserMessageBox
+          message="hello"
+          userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+          owner={false}
+        />
+        <UserMessageBox
+          message="hello"
+          userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+          owner={true}
+        />
+        <UserMessageBox
+          message="hello"
+          userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+          owner={true}
+        />
+      </section>
       <footer className="chat-zone-input">
         <input
           type="text"

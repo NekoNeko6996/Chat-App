@@ -138,7 +138,12 @@ const Add: React.FC<className> = ({ className }) => (
 );
 
 const ToRightArrow: React.FC<className> = ({ className }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <svg
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -148,4 +153,15 @@ const ToRightArrow: React.FC<className> = ({ className }) => (
   </svg>
 );
 
-export { Bell, Message, Call, Friends, User, Search, More, Add, ToRightArrow };
+const MoreRow: React.FC<className> = ({ className }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+    ></path>
+  </svg>
+);
+
+export { Bell, Message, Call, Friends, User, Search, More, Add, ToRightArrow, MoreRow };

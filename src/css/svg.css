@@ -30,7 +30,6 @@
   color: #acb0b9;
 }
 
-
 .bell-icon {
   position: relative;
   left: -20px;
@@ -38,4 +37,12 @@
 
 .white path {
   color: white;
+}
+
+.hw-18 {
+  height: 18px;
+  width: 18px;
+}
+.hw-18 path {
+  color: #acb0b9;
 }
