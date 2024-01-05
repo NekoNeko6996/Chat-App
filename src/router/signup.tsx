@@ -8,7 +8,7 @@ import "../css/loginPage.css";
 const SignUpPage = () => {
 
     const onSignUp = () => {
-        instance.post("/signup", document.querySelector(".login-form"), {
+        instance.post("/signup", document.querySelector(".signup-form"), {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -21,7 +21,7 @@ const SignUpPage = () => {
   return (
     <div className="login-page">
       <div className="login-container">
-        <form className="login-form">
+        <form className="signup-form">
           <h1>Sign Up</h1>
           <input type="text" name="firstName" placeholder="first name..."/>
           <input type="text" name="lastName" placeholder="last name..."/>

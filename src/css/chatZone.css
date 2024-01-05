@@ -32,6 +32,7 @@
   height: 75px;
   border-bottom: 1px solid #cdd1da;
   position: relative;
+  margin-bottom: 30px;
 }
 .chat-zone-nav .user-box {
   height: 85%;
@@ -72,6 +73,12 @@
   display: none;
 }
 /* ---------------------------------- */
+.chat-zone-form {
+  width: 80%;
+  height: 90%;
+}
+
+
 .chat-zone-input {
   width: 100%;
   height: 65px;
@@ -85,14 +92,20 @@
   padding: 5px 0 5px 0;
 }
 .chat-zone-input-text {
-  width: 80%;
+  width: 100%;
   height: 100%;
   border: none;
   outline: none;
   background-color: white;
   font-size: 18px;
   padding-left: 20px;
+
 }
+
+.message-submit {
+  display: none;
+}
+
 .send-btn {
   height: 50px;
   width: 50px;
