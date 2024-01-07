@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 // css
 import "../css/contactCard.css";
@@ -10,7 +9,7 @@ interface ContactCardProps {
   messageUnreadAmount: number;
   key?: number | string;
   time: { hour: number; minutes: number };
-  path: string;
+  path?: string;
   onclickCallback: () => void;
 }
 
@@ -22,12 +21,11 @@ const ContactCard: React.FC<ContactCardProps> = ({
   name,
   messageUnreadAmount,
   time,
-  path,
   onclickCallback
   
 }) => {
   return (
-    <Link to={path} className="contact-card-container flex-center" onClick={onclickCallback}>
+    <div className="contact-card-container flex-center" onClick={onclickCallback}>
       <img
         src="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
         alt="avatar"
@@ -50,7 +48,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
           )}
         </span>
       </div>
-    </Link>
+    </div>
   );
 };
 

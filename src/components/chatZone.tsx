@@ -23,17 +23,18 @@ type ChatZoneProps = {
   friendId: string;
 };
 
+type messageDataArrayT = {
+  senderId: string;
+  roomId: string;
+  message: string;
+  dateSend: { hour: number; minutes: number; second: number };
+};
+
 //
 const ChatZone: React.FC<ChatZoneProps> = ({ chatKey, title }) => {
   const [messageString, setMessageString] = useState("");
-  const [messageDataArray, setMessageDataArray] = useState([
-    {
-      senderId: "",
-      roomId: "",
-      message: "",
-      dateSend: "",
-    },
-  ]);
+  const [messageDataArray, setMessageDataArray] =
+    useState<messageDataArrayT[]>();
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -76,7 +77,7 @@ const ChatZone: React.FC<ChatZoneProps> = ({ chatKey, title }) => {
       socket.emit("joinRoom", chatKey);
 
       socket.on("newMessage", (data) => {
-        setMessageDataArray((prev) => [...prev, data]);
+        setMessageDataArray((prev) => [...(prev || []), data]);
         scrollF();
       });
 
@@ -92,7 +93,11 @@ const ChatZone: React.FC<ChatZoneProps> = ({ chatKey, title }) => {
       senderId: window.sessionStorage.getItem("token"),
       roomId: chatKey,
       message: messageString,
-      dateSend: new Date(),
+      dateSend: {
+        hour: new Date().getHours(),
+        minutes: new Date().getMinutes(),
+        second: new Date().getSeconds(),
+      },
     });
     setMessageString("");
   };
@@ -121,16 +126,19 @@ const ChatZone: React.FC<ChatZoneProps> = ({ chatKey, title }) => {
           </nav>
           <section className="chat-zone-show-message" ref={bottomRef}>
             {messageDataArray
-              ? messageDataArray.map((data, index) => (
-                  <UserMessageBox
-                    message={data.message}
-                    userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
-                    owner={
-                      data.senderId === window.sessionStorage.getItem("token")
-                    }
-                    key={index}
-                  />
-                ))
+              ? messageDataArray.map(
+                  ({ message, senderId, dateSend }, index) => (
+                    <UserMessageBox
+                      message={message}
+                      userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+                      owner={
+                        senderId === window.sessionStorage.getItem("token")
+                      }
+                      key={index}
+                      time={dateSend}
+                    />
+                  )
+                )
               : null}
           </section>
           <footer className="chat-zone-input">
@@ -150,7 +158,7 @@ const ChatZone: React.FC<ChatZoneProps> = ({ chatKey, title }) => {
                 value=""
                 onClick={(event) => {
                   event.preventDefault();
-                  sendMessage()
+                  sendMessage();
                 }}
                 className="message-submit"
               />

@@ -1,19 +1,13 @@
-import { Link } from "react-router-dom";
-import { ReactNode, useEffect, useState, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState, ReactNode } from "react";
 import { instance } from "../axios/axios.ts";
 
 // components
+import LeftNavShowBox from "../components/navAside.tsx";
 import ContactCard from "../components/contactCard.tsx";
 import ChatZone from "../components/chatZone.tsx";
-import {
-  Bell,
-  Message,
-  Call,
-  Friends,
-  User,
-  Search,
-  More,
-} from "../components/svgComponent.tsx";
+import { Message, Call, Friends, User } from "../components/svgComponent.tsx";
+import UserProfile from "../components/userProfile.tsx";
 
 // css
 import "../css/App.css";
@@ -28,13 +22,21 @@ type friendListObj = {
   title: string;
   dateCreate: Date;
 };
+type userProfileData = {
+  fname: string;
+  lname: string;
+  phone: string;
+  email: string;
+};
 
 //
 function App() {
-  const [contactCard, setContactCard] = useState<ReactNode>();
   const [friendList, setFriendList] = useState<friendListObj[]>([]);
-  const inputSearchFriend = useRef<HTMLInputElement>(null);
+  const [contactCard, setContactCard] = useState<ReactNode>();
+  const [userProfileData, setUserProfileData] = useState<userProfileData>();
+
   const [chatRoomIndex, setChatRoomIndex] = useState(0);
+  const path = useLocation().pathname;
 
   // onload
   useEffect(() => {
@@ -79,25 +81,24 @@ function App() {
       });
   }, []);
 
-  const addFriend = async () => {
-    try {
-      instance.post(
-        "/addFriend",
-        {
-          search: inputSearchFriend.current?.value,
-          token: window.sessionStorage.getItem("token"),
-          date: new Date()
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+
+  
+  useEffect(() => {
+    instance
+      .post("/getProfile", {
+        token: window.sessionStorage.getItem("token"),
+        date: new Date(),
+      })
+      .then((resp) => {
+        if (resp.data.status) {
+          const { fname, lname, email, phone } = resp.data;
+          setUserProfileData({ fname, lname, email, phone });
         }
-      );
-    } catch (err) {
-      throw new Error("send add friend error :(");
-    }
-  };
+      });
+  }, []);
+
+
+
 
   return (
     <div className="app">
@@ -106,7 +107,7 @@ function App() {
           <Link to={"/"} className="flex-center home-icon">
             <img src={messageIcon} alt="mess icon" className="message-icon" />
           </Link>
-          <Link to={"/message"} className="flex-center nav-icon">
+          <Link to={"/chat"} className="flex-center nav-icon">
             <Message className="hw-35" />
           </Link>
           <Link to={"/call"} className="flex-center nav-icon">
@@ -115,45 +116,23 @@ function App() {
           <Link to={"/friend"} className="flex-center nav-icon">
             <Friends className="hw-35" />
           </Link>
-          <Link to={"/user"} className="flex-center nav-icon">
+          <Link to={"/profile"} className="flex-center nav-icon">
             <User className="hw-35" />
           </Link>
         </nav>
         <div className="left-aside-section">
-          <nav>
-            <div className="title-container">
-              <p className="title">Chats</p>
-              <span>
-                <Bell className="hw-25 bell-icon" />
-                <More className="hw-25" />
-              </span>
-            </div>
-            <div className="title-option flex-center">
-              <select defaultValue={"friend"}>
-                <option value="all-chats">All Chats</option>
-                <option value="friend">Friends</option>
-                <option value="groups">Groups</option>
-              </select>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  name="searchText"
-                  ref={inputSearchFriend}
-                />
-                <Search className="hw-25" onclickF={addFriend} />
-              </div>
-            </div>
-          </nav>
-          <section>{contactCard}</section>
+          <LeftNavShowBox contactCard={contactCard} userData={userProfileData}/>
         </div>
       </aside>
       <section className="app-section">
-        <ChatZone
-          chatKey={friendList[chatRoomIndex]?.chatId}
-          title={friendList[chatRoomIndex]?.title}
-          friendId={friendList[chatRoomIndex]?.friendId}
-        />
+        {path === "/chat" && (
+          <ChatZone
+            chatKey={friendList[chatRoomIndex]?.chatId}
+            title={friendList[chatRoomIndex]?.title}
+            friendId={friendList[chatRoomIndex]?.friendId}
+          />
+        )}
+        {path === "/profile" && <UserProfile data={userProfileData}/>}
       </section>
       <aside className="app-right-aside"></aside>
     </div>

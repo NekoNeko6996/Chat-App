@@ -1,0 +1,80 @@
+.flex-c-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.flex-ju-center {
+    justify-content: center;
+}
+.flex-r-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+/* --------------------------------------- */
+.user-profile-aside {
+    height: 100%;
+    width: 100%;
+
+    background-color: #F8F9FA;
+    position: relative;
+}
+
+.aside-user-profile-avatar {
+    width: 95%;
+
+    background-color: #FFFFFF;
+    position: relative;
+    margin-top: 10px;
+    padding: 15px 0 15px 0;
+    border-radius: 10px;
+    border: 1px solid #E5E9F2;
+
+}
+.aside-user-profile-avatar > h3 {
+    color: #49505C;
+}
+
+.aside-user-profile-avatar > span > button {
+    padding: 7px 20px 7px 20px;
+    margin: 0 10px 0 10px;
+    border: 1px solid #E5E9F2;
+    cursor: pointer;
+}
+.aside-user-profile-avatar > span > button:hover {
+    background-color: #E5E9F2;
+}
+
+
+
+.aside-user-profile-avatar > * {
+    margin: 5px;
+}
+
+.aside-user-profile-avatar > img {
+    height: 70px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
+
+/* ------------------- */
+.aside-user-info {
+    width: 95%;
+    margin-top: 20px;
+    
+}
+
+.aside-user-info > span {
+    width: 100%;
+    border: 1px solid #E5E9F2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+}
+.aside-user-info > span > span {
+    margin: 5px 15px 5px 15px;
+}
