@@ -1,15 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { instance } from "../axios/axios";
 
 // css
 import "../css/userProfile.css";
 
 // type
 type userProfileProps = {
-  data: { fname: string; lname: string; phone: string; email: string } | undefined;
+  data:
+    | { fname: string; lname: string; phone: string; email: string }
+    | undefined;
 };
 
 //
 const UserProfile: React.FC<userProfileProps> = ({ data }) => {
+  useEffect(() => {
+    if (!window.sessionStorage.getItem) {
+      window.location.href = "/login";
+      return;
+    }
+  });
+
+  const sendChangeProfile = () => {
+    const formData = new FormData(
+      document.querySelector("#user-info-form") as HTMLFormElement
+    );
+    const userToken = window.sessionStorage.getItem("token");
+
+    formData.append("userToken", userToken as string);
+    formData.append("dateChange", JSON.stringify(new Date()));
+
+    instance.post("/changeProfile", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
   return (
     <div className="user-profile-container flex-c-center">
       <nav className="user-profile-nav">
@@ -21,20 +47,24 @@ const UserProfile: React.FC<userProfileProps> = ({ data }) => {
           <h4>Account</h4>
           <p>Update personal & contact information</p>
         </div>
-        <span>
+        <form action="" id="user-info-form">
           <div className="flex-r-center">
             <div>
               <div className="input-info-box">
                 <p>First Name</p>
-                <input type="text" name="firstName" value={data?.fname} />
+                <input
+                  type="text"
+                  name="firstName"
+                  defaultValue={data?.fname}
+                />
               </div>
               <div className="input-info-box">
                 <p>Last Name</p>
-                <input type="text" name="lastName" value={data?.lname} />
+                <input type="text" name="lastName" defaultValue={data?.lname} />
               </div>
               <div className="input-info-box">
                 <p>Phone Number</p>
-                <input type="tell" name="phone" value={data?.phone} />
+                <input type="tell" name="phone" defaultValue={data?.phone} />
               </div>
             </div>
             <div>
@@ -44,7 +74,7 @@ const UserProfile: React.FC<userProfileProps> = ({ data }) => {
               </div>
               <div className="input-info-box">
                 <p>Email</p>
-                <input type="email" name="email" value={data?.email} />
+                <input type="email" name="email" defaultValue={data?.email} />
               </div>
               <div className="input-info-box">
                 <p>Website</p>
@@ -56,10 +86,12 @@ const UserProfile: React.FC<userProfileProps> = ({ data }) => {
             <p>Address</p>
             <input type="text" name="address" />
           </div>
-        </span>
+        </form>
         <div className="user-account-footer flex-r-center">
           <button>Reset</button>
-          <button className="blue-btn">Save Change</button>
+          <button className="blue-btn" onClick={sendChangeProfile}>
+            Save Change
+          </button>
         </div>
       </div>
     </div>

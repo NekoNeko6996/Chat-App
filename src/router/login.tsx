@@ -16,7 +16,7 @@ const LoginPage = () => {
         if (resp.data.status) {
           console.log(resp.data);
           window.sessionStorage.setItem("token", resp.data.token);
-          window.location.href = "/";
+          window.location.href = "/chat";
         } else {
           console.log(resp.data.message);
         }

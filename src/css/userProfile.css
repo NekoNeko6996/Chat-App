@@ -53,15 +53,15 @@
 }
 
 /* ------- */
-.account-setting-container > span {
+.account-setting-container > form {
   width: 90%;
   margin: 20px;
 }
 
-.account-setting-container > span > div {
+.account-setting-container > form > div {
     width: 100%;
 }
-.account-setting-container > span > div > div {
+.account-setting-container > form > div > div {
     width: 45%;
 }
 

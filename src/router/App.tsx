@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState, ReactNode } from "react";
 import { instance } from "../axios/axios.ts";
+import { io } from "socket.io-client";
 
 // components
 import LeftNavShowBox from "../components/navAside.tsx";
@@ -15,6 +16,9 @@ import "../css/App.css";
 // icons
 import messageIcon from "../assets/icons/message.png";
 
+//
+import { socketURL } from "../axios/axios.ts";
+
 // type
 type friendListObj = {
   chatId: string;
@@ -28,12 +32,28 @@ type userProfileData = {
   phone: string;
   email: string;
 };
+type messageData = [
+  {
+    message: string;
+    senderId: string;
+    dateSend: {
+      hour: number;
+      minutes: number;
+      second: number;
+      day: number;
+      month: number;
+      year: number;
+    };
+  }
+];
 
 //
 function App() {
   const [friendList, setFriendList] = useState<friendListObj[]>([]);
   const [contactCard, setContactCard] = useState<ReactNode>();
   const [userProfileData, setUserProfileData] = useState<userProfileData>();
+  const [messageData, setMessageData] = useState<messageData[]>();
+  const [refresh, setRefresh] = useState(true);
 
   const [chatRoomIndex, setChatRoomIndex] = useState(0);
   const path = useLocation().pathname;
@@ -41,7 +61,10 @@ function App() {
   // onload
   useEffect(() => {
     const token = window.sessionStorage.getItem("token");
-    if (!token) window.location.href = "/login";
+    if (!token) {
+      window.location.href = "/login";
+      return;
+    }
 
     instance
       .post(
@@ -60,6 +83,7 @@ function App() {
         if (resp.data.status) {
           const dataResp = resp.data.dataUser;
           if (dataResp.chatInfo.length > 0) {
+            setMessageData(resp.data.messageData);
             const htmlContactCardElement = dataResp.chatInfo.map(
               (data: friendListObj, index: number) => (
                 <ContactCard
@@ -79,11 +103,6 @@ function App() {
           }
         }
       });
-  }, []);
-
-
-  
-  useEffect(() => {
     instance
       .post("/getProfile", {
         token: window.sessionStorage.getItem("token"),
@@ -97,8 +116,43 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    // Kết nối đến server Socket.IO
+    const token = window.sessionStorage.getItem("token");
+    const socket = io(`${socketURL}`);
 
+    // Gửi dữ liệu từ client đến server
+    socket.emit("joinRoom", friendList);
 
+    socket.on("newMessage", (data) => {
+      // setMessageDataArray((prev) => [...(prev || []), data]);
+      console.log(data);
+      if (data) {
+        const messageTemp = messageData;
+        friendList.map(({ friendId }, index) => {
+          if (
+            (friendId === data.senderId || data.senderId === token) &&
+            messageTemp
+          ) {
+            messageTemp[index].push(data);
+          }
+        });
+        setMessageData(messageTemp);
+        setRefresh((prev) => !prev);
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [friendList]);
+
+  useEffect(() => {
+    if (messageData) {
+      console.log(messageData[chatRoomIndex]);
+    }
+  }, [messageData, chatRoomIndex]);
 
   return (
     <div className="app">
@@ -121,18 +175,23 @@ function App() {
           </Link>
         </nav>
         <div className="left-aside-section">
-          <LeftNavShowBox contactCard={contactCard} userData={userProfileData}/>
+          <LeftNavShowBox
+            contactCard={contactCard}
+            userData={userProfileData}
+          />
         </div>
       </aside>
       <section className="app-section">
-        {path === "/chat" && (
+        {path === "/chat" && messageData && (
           <ChatZone
             chatKey={friendList[chatRoomIndex]?.chatId}
+            roomMessageData={messageData[chatRoomIndex]}
             title={friendList[chatRoomIndex]?.title}
             friendId={friendList[chatRoomIndex]?.friendId}
+            refresh={refresh}
           />
         )}
-        {path === "/profile" && <UserProfile data={userProfileData}/>}
+        {path === "/profile" && <UserProfile data={userProfileData} />}
       </section>
       <aside className="app-right-aside"></aside>
     </div>
