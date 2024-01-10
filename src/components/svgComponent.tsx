@@ -171,12 +171,13 @@ const MoreRow: React.FC<className> = ({ className }) => (
   </svg>
 );
 
-const Logout: React.FC<className> = ({ className }) => (
+const Logout: React.FC<className> = ({ className, onclickF }) => (
   <svg
     className={className}
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
+    onClick={onclickF}
   >
     <path
       strokeLinecap="round"

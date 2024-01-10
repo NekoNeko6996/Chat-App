@@ -31,6 +31,9 @@ type userProfileData = {
   lname: string;
   phone: string;
   email: string;
+  address: string;
+  birthDate: string;
+  website: string;
 };
 type messageData = [
   {
@@ -84,21 +87,6 @@ function App() {
           const dataResp = resp.data.dataUser;
           if (dataResp.chatInfo.length > 0) {
             setMessageData(resp.data.messageData);
-            const htmlContactCardElement = dataResp.chatInfo.map(
-              (data: friendListObj, index: number) => (
-                <ContactCard
-                  name={data.title}
-                  messageUnreadAmount={10}
-                  time={{ hour: 12, minutes: 23 }}
-                  path="/"
-                  key={index}
-                  onclickCallback={() => {
-                    setChatRoomIndex(index);
-                  }}
-                />
-              )
-            );
-            setContactCard(htmlContactCardElement);
             setFriendList(dataResp.chatInfo);
           }
         }
@@ -110,11 +98,30 @@ function App() {
       })
       .then((resp) => {
         if (resp.data.status) {
-          const { fname, lname, email, phone } = resp.data;
-          setUserProfileData({ fname, lname, email, phone });
+          const { fname, lname, email, phone, address, birthDate, website } = resp.data;
+          setUserProfileData({ fname, lname, email, phone, address, birthDate, website });
         }
       });
   }, []);
+
+  useEffect(() => {
+    const htmlContactCardElement = friendList.map(
+      (data: friendListObj, index: number) => (
+        <ContactCard
+          name={data.title}
+          messageUnreadAmount={10}
+          time={{ hour: 12, minutes: 23 }}
+          path="/"
+          key={index}
+          onclickCallback={() => {
+            setChatRoomIndex(index);
+          }}
+          select={chatRoomIndex === index}
+        />
+      )
+    );
+    setContactCard(htmlContactCardElement);
+  }, [friendList, chatRoomIndex]);
 
   useEffect(() => {
     // Kết nối đến server Socket.IO
@@ -148,12 +155,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [friendList]);
 
-  useEffect(() => {
-    if (messageData) {
-      console.log(messageData[chatRoomIndex]);
-    }
-  }, [messageData, chatRoomIndex]);
-
   return (
     <div className="app">
       <aside className="app-left-aside">
@@ -177,7 +178,7 @@ function App() {
         <div className="left-aside-section">
           <LeftNavShowBox
             contactCard={contactCard}
-            userData={userProfileData}
+            profileData={userProfileData}
           />
         </div>
       </aside>

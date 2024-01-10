@@ -27,17 +27,18 @@ const LoginPage = () => {
     <div className="login-page">
       <div className="login-container">
         <form className="login-form">
-          <h1>Login</h1>
+          <h1>LOGIN</h1>
           <input type="text" name="email" placeholder="email..." />
           <input type="password" name="password" placeholder="password..." />
           <input
             type="submit"
             name="login-btn"
-            value={"Login"}
+            value={"LOGIN"}
             onClick={(event) => {
               event.preventDefault();
               onLogin();
             }}
+            className="login-submit-btn"
           />
         </form>
         <div className="login-info"></div>

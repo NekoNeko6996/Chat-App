@@ -11,10 +11,20 @@ import { Bell, More, Search, Logout, Setting } from "./svgComponent";
 // type
 type props = {
   contactCard?: ReactNode;
-  userData?: { fname: string; lname: string; phone: string; email: string };
+  profileData:
+    | {
+        fname: string;
+        lname: string;
+        phone: string;
+        email: string;
+        address: string;
+        birthDate: string;
+        website: string;
+      }
+    | undefined;
 };
 
-const LeftNavShowBox: React.FC<props> = ({ contactCard, userData }) => {
+const LeftNavShowBox: React.FC<props> = ({ contactCard, profileData }) => {
   const inputSearchFriend = useRef<HTMLInputElement>(null);
   const path = useLocation().pathname;
 
@@ -37,6 +47,11 @@ const LeftNavShowBox: React.FC<props> = ({ contactCard, userData }) => {
       throw new Error("send add friend error :(");
     }
   };
+
+  const logout = () => {
+    window.sessionStorage.removeItem("token");
+    window.location.reload();
+  }
 
   const padStartF = (value: number | string) =>
     value.toString().padStart(2, "0");
@@ -80,10 +95,10 @@ const LeftNavShowBox: React.FC<props> = ({ contactCard, userData }) => {
               src="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
               alt="user profile"
             />
-            <h3 className="">{`${userData?.fname} ${userData?.lname}`}</h3>
+            <h3 className="">{`${profileData?.fname} ${profileData?.lname}`}</h3>
             <span className="flex-r-center">
-              <button className="flex-r-center">
-                <Logout className="hw-18" /> Logout
+              <button className="flex-r-center" onClick={logout}>
+                <Logout className="hw-18"/> Logout
               </button>
               <button className="flex-r-center">
                 <Setting className="hw-18" /> Setting
@@ -103,28 +118,36 @@ const LeftNavShowBox: React.FC<props> = ({ contactCard, userData }) => {
             <span>
               <span>
                 <p>Birth Date</p>
-                <p>dd/mm/yyyy</p>
+                <p>
+                  {profileData?.birthDate
+                    ? profileData?.birthDate
+                    : "dd/mm/yyyy"}
+                </p>
               </span>
               <span>icon</span>
             </span>
             <span>
               <span>
                 <p>Phone</p>
-                <p>{userData?.phone}</p>
+                <p>{profileData?.phone}</p>
               </span>
               <span>icon</span>
             </span>
             <span>
               <span>
                 <p>Email</p>
-                <p>{userData?.email}</p>
+                <p>{profileData?.email}</p>
               </span>
               <span>icon</span>
             </span>
             <span>
               <span>
                 <p>Address</p>
-                <p>your address...</p>
+                <p>
+                  {profileData?.address
+                    ? profileData?.address
+                    : "your address..."}
+                </p>
               </span>
               <span>icon</span>
             </span>

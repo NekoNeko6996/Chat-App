@@ -11,6 +11,7 @@ interface ContactCardProps {
   time: { hour: number; minutes: number };
   path?: string;
   onclickCallback: () => void;
+  select: true | false;
 }
 
 //
@@ -21,11 +22,11 @@ const ContactCard: React.FC<ContactCardProps> = ({
   name,
   messageUnreadAmount,
   time,
-  onclickCallback
-  
+  onclickCallback,
+  select
 }) => {
   return (
-    <div className="contact-card-container flex-center" onClick={onclickCallback}>
+    <div className={`contact-card-container flex-center ${select? "contactSelect" : ""}`} onClick={onclickCallback}>
       <img
         src="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
         alt="avatar"
