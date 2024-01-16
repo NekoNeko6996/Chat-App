@@ -20,29 +20,43 @@ type props = {
         address: string;
         birthDate: string;
         website: string;
+        avatar: string;
       }
     | undefined;
+  searchFriendResultF: (data: object) => void;
 };
 
-const LeftNavShowBox: React.FC<props> = ({ contactCard, profileData }) => {
+const LeftNavShowBox: React.FC<props> = ({
+  contactCard,
+  profileData,
+  searchFriendResultF,
+}) => {
   const inputSearchFriend = useRef<HTMLInputElement>(null);
   const path = useLocation().pathname;
 
-  const addFriend = async () => {
+  const searchNewFriend = async () => {
     try {
-      instance.post(
-        "/addFriend",
-        {
-          search: inputSearchFriend.current?.value,
-          token: window.sessionStorage.getItem("token"),
-          date: new Date(),
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+      if (!inputSearchFriend.current?.value) return;
+      instance
+        .post(
+          "/searchNewFriend",
+          {
+            search: inputSearchFriend.current?.value,
+            token: window.sessionStorage.getItem("token"),
+            date: new Date(),
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((resp) => {
+          if (resp.data.status) {
+            const result = resp.data;
+            searchFriendResultF(result.data);
+          }
+        });
     } catch (err) {
       throw new Error("send add friend error :(");
     }
@@ -51,7 +65,7 @@ const LeftNavShowBox: React.FC<props> = ({ contactCard, profileData }) => {
   const logout = () => {
     window.sessionStorage.removeItem("token");
     window.location.reload();
-  }
+  };
 
   const padStartF = (value: number | string) =>
     value.toString().padStart(2, "0");
@@ -77,11 +91,11 @@ const LeftNavShowBox: React.FC<props> = ({ contactCard, profileData }) => {
               <div>
                 <input
                   type="text"
-                  placeholder="Search..."
+                  placeholder="Enter phone..."
                   name="searchText"
                   ref={inputSearchFriend}
                 />
-                <Search className="hw-25" onclickF={addFriend} />
+                <Search className="hw-25" onclickF={searchNewFriend} />
               </div>
             </div>
           </nav>
@@ -92,13 +106,15 @@ const LeftNavShowBox: React.FC<props> = ({ contactCard, profileData }) => {
         <div className="user-profile-aside flex-c-center ">
           <div className="aside-user-profile-avatar flex-c-center flex-ju-center">
             <img
-              src="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
-              alt="user profile"
+              src="https://e0.pxfuel.com/wallpapers/907/577/desktop-wallpaper-anime-vibe.jpg"
+              alt="background"
+              className="user-background-img"
             />
+            <img src={profileData?.avatar} alt="user profile" />
             <h3 className="">{`${profileData?.fname} ${profileData?.lname}`}</h3>
             <span className="flex-r-center">
               <button className="flex-r-center" onClick={logout}>
-                <Logout className="hw-18"/> Logout
+                <Logout className="hw-18" /> Logout
               </button>
               <button className="flex-r-center">
                 <Setting className="hw-18" /> Setting

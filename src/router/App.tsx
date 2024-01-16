@@ -3,12 +3,16 @@ import { useEffect, useState, ReactNode } from "react";
 import { instance } from "../axios/axios.ts";
 import { io } from "socket.io-client";
 
+// default
+import { defaultAvatar } from "../defaults/default.tsx";
+
 // components
 import LeftNavShowBox from "../components/navAside.tsx";
 import ContactCard from "../components/contactCard.tsx";
 import ChatZone from "../components/chatZone.tsx";
 import { Message, Call, Friends, User } from "../components/svgComponent.tsx";
 import UserProfile from "../components/userProfile.tsx";
+import AddFriendProfile from "../components/addFriendProfile.tsx";
 
 // css
 import "../css/App.css";
@@ -26,6 +30,13 @@ type friendListObj = {
   title: string;
   dateCreate: Date;
 };
+
+type friendInfoObj = {
+  lname: string;
+  fname: string;
+  avatar: string;
+};
+
 type userProfileData = {
   fname: string;
   lname: string;
@@ -34,6 +45,7 @@ type userProfileData = {
   address: string;
   birthDate: string;
   website: string;
+  avatar: string;
 };
 type messageData = [
   {
@@ -49,14 +61,23 @@ type messageData = [
     };
   }
 ];
+type userProfileAddFriendResult = {
+  fname: string;
+  lname: string;
+  id: string;
+  phone: string;
+  avatar: string;
+};
 
 //
 function App() {
   const [friendList, setFriendList] = useState<friendListObj[]>([]);
+  const [friendInfo, setFriendInfo] = useState<friendInfoObj[]>([]);
   const [contactCard, setContactCard] = useState<ReactNode>();
   const [userProfileData, setUserProfileData] = useState<userProfileData>();
   const [messageData, setMessageData] = useState<messageData[]>();
   const [refresh, setRefresh] = useState(true);
+  const [addFriendProfile, setAddFriendProfile] = useState<ReactNode>();
 
   const [chatRoomIndex, setChatRoomIndex] = useState(0);
   const path = useLocation().pathname;
@@ -88,9 +109,12 @@ function App() {
           if (dataResp.chatInfo.length > 0) {
             setMessageData(resp.data.messageData);
             setFriendList(dataResp.chatInfo);
+            setFriendInfo(resp.data.friendInfo);
           }
         }
       });
+
+    // -------------------------- //
     instance
       .post("/getProfile", {
         token: window.sessionStorage.getItem("token"),
@@ -98,8 +122,26 @@ function App() {
       })
       .then((resp) => {
         if (resp.data.status) {
-          const { fname, lname, email, phone, address, birthDate, website } = resp.data;
-          setUserProfileData({ fname, lname, email, phone, address, birthDate, website });
+          const {
+            fname,
+            lname,
+            email,
+            phone,
+            address,
+            birthDate,
+            website,
+            avatar,
+          } = resp.data;
+          setUserProfileData({
+            fname,
+            lname,
+            email,
+            phone,
+            address,
+            birthDate,
+            website,
+            avatar,
+          });
         }
       });
   }, []);
@@ -117,12 +159,28 @@ function App() {
             setChatRoomIndex(index);
           }}
           select={chatRoomIndex === index}
+          avatar={friendInfo[index]?.avatar}
         />
       )
     );
     setContactCard(htmlContactCardElement);
-  }, [friendList, chatRoomIndex]);
+  }, [friendList, chatRoomIndex, friendInfo]);
 
+  // show add friend popup
+  const SearchNewFriendCallBack = (result: userProfileAddFriendResult) => {
+    const addFComponent = (
+      <AddFriendProfile
+        zIndex={10}
+        data={result}
+        closeCallBackF={(off) => {
+          off ? setAddFriendProfile(null) : null;
+        }}
+      />
+    );
+    setAddFriendProfile(addFComponent);
+  };
+
+  //
   useEffect(() => {
     // Kết nối đến server Socket.IO
     const token = window.sessionStorage.getItem("token");
@@ -159,7 +217,7 @@ function App() {
     <div className="app">
       <aside className="app-left-aside">
         <nav className="flex-column-center">
-          <Link to={"/"} className="flex-center home-icon">
+          <Link to={"/chat"} className="flex-center home-icon">
             <img src={messageIcon} alt="mess icon" className="message-icon" />
           </Link>
           <Link to={"/chat"} className="flex-center nav-icon">
@@ -179,6 +237,9 @@ function App() {
           <LeftNavShowBox
             contactCard={contactCard}
             profileData={userProfileData}
+            searchFriendResultF={(result) =>
+              SearchNewFriendCallBack(result as userProfileAddFriendResult)
+            }
           />
         </div>
       </aside>
@@ -190,11 +251,14 @@ function App() {
             title={friendList[chatRoomIndex]?.title}
             friendId={friendList[chatRoomIndex]?.friendId}
             refresh={refresh}
+            friendInfo={friendInfo[chatRoomIndex]}
+            myAvatar={userProfileData?.avatar || defaultAvatar}
           />
         )}
         {path === "/profile" && <UserProfile data={userProfileData} />}
       </section>
       <aside className="app-right-aside"></aside>
+      {addFriendProfile}
     </div>
   );
 }

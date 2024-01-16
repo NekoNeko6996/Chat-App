@@ -1,0 +1,74 @@
+.add-friend-profile-layer {
+    height: 100vh;
+    width: 100%;
+
+    background-color: rgba(145, 145, 145, 0.5);
+    position: fixed;
+    z-index: 10;
+}
+
+
+.add-friend-profile-container {
+    --height: 500px;
+    --width: 400px;
+
+    height: var(--height);
+    width: var(--width);
+
+    position: fixed;
+    top: calc(50% - var(--height)/2);
+    left: calc(50% - var(--width)/2);
+
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px slategrey;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.add-friend-profile-container > .user-background {
+    position: absolute;
+    height: 250px;
+    width: 100%;
+    border-radius:  0 !important;
+    top: 0;
+    margin: 0 !important;
+    z-index: 1;
+}
+
+.add-friend-profile-container > * {
+    margin: 20px 0 20px 0;
+}
+.add-friend-profile-container > img {
+    height: 30%;
+    aspect-ratio: 1/1; 
+    border-radius: 50%;
+    box-shadow: 1px 1px 6px rgb(102, 102, 102);
+    z-index: 3;
+    background-color: white;
+}
+.add-friend-profile-container > .user-name {
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px white;
+}
+
+.add-friend-profile-container > .introduce {
+    color: rgb(160, 160, 160);
+    margin: 10px 0 10px 0;
+}
+
+.add-friend-profile-container > .btn-box > button {
+    padding: 8px 17px 8px 17px;
+    background-color: #665dfe;
+    border: none;
+    margin: 0 20px 0 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}

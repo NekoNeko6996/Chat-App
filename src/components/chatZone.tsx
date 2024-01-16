@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import io from "socket.io-client";
 
+// default
+import { defaultAvatar } from "../defaults/default.tsx";
+
 // css
 import "../css/chatZone.css";
 
@@ -14,7 +17,7 @@ import {
 } from "../components/svgComponent";
 import UserMessageBox from "./messageBox";
 
-// 
+//
 import { socketURL } from "../axios/axios";
 
 // type
@@ -23,6 +26,12 @@ type ChatZoneProps = {
   chatKey?: string;
   title: string;
   friendId: string;
+  friendInfo: {
+    lname: string;
+    fname: string;
+    avatar: string;
+  };
+  myAvatar: string;
   roomMessageData: [
     {
       message: string;
@@ -45,7 +54,9 @@ const ChatZone: React.FC<ChatZoneProps> = ({
   chatKey,
   title,
   roomMessageData,
-  refresh
+  refresh,
+  friendInfo,
+  myAvatar,
 }) => {
   const [messageString, setMessageString] = useState("");
 
@@ -61,7 +72,8 @@ const ChatZone: React.FC<ChatZoneProps> = ({
   };
 
   const sendMessage = () => {
-    const socket = io(`${socketURL}`); // Địa chỉ server của bạn
+    if(!messageString) return;
+    const socket = io(`${socketURL}`);
     socket.emit("privateMessage", {
       senderId: window.sessionStorage.getItem("token"),
       roomId: chatKey,
@@ -82,10 +94,7 @@ const ChatZone: React.FC<ChatZoneProps> = ({
     if (roomMessageData?.length) {
       scrollF();
     }
-    console.log(roomMessageData.length)
   }, [roomMessageData, refresh]);
-
-
 
   //
   return (
@@ -94,7 +103,7 @@ const ChatZone: React.FC<ChatZoneProps> = ({
         <nav className="chat-zone-nav flex-row-space-between">
           <div className="user-box flex-row-center">
             <img
-              src="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+              src={friendInfo?.avatar || defaultAvatar}
               alt="img"
             />
             <span className="flex-column">
@@ -110,15 +119,21 @@ const ChatZone: React.FC<ChatZoneProps> = ({
         </nav>
         <section className="chat-zone-show-message" ref={bottomRef}>
           {roomMessageData
-            ? roomMessageData.map(({ message, senderId, dateSend }, index) => (
-                <UserMessageBox
-                  message={message}
-                  userAvatar="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
-                  owner={senderId === window.sessionStorage.getItem("token")}
-                  key={index}
-                  time={dateSend}
-                />
-              ))
+            ? roomMessageData.map(({ message, senderId, dateSend }, index) => {
+                const owner =
+                  senderId === window.sessionStorage.getItem("token");
+                return (
+                  <UserMessageBox
+                    message={message}
+                    userAvatar={
+                      owner ? myAvatar : friendInfo.avatar || defaultAvatar
+                    }
+                    owner={owner}
+                    key={index}
+                    time={dateSend}
+                  />
+                );
+              })
             : null}
         </section>
         <footer className="chat-zone-input">

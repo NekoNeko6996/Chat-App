@@ -25,6 +25,7 @@
   width: 100%;
 
   position: relative;
+
 }
 /* ---------------------------------- */
 .chat-zone-nav {
@@ -32,7 +33,6 @@
   height: 75px;
   border-bottom: 1px solid #cdd1da;
   position: relative;
-  margin-bottom: 30px;
 }
 .chat-zone-nav .user-box {
   height: 85%;

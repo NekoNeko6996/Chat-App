@@ -1,5 +1,8 @@
 import React from "react";
 
+// default
+import { defaultAvatar } from "../defaults/default";
+
 // css
 import "../css/contactCard.css";
 
@@ -12,6 +15,7 @@ interface ContactCardProps {
   path?: string;
   onclickCallback: () => void;
   select: true | false;
+  avatar: string;
 }
 
 //
@@ -23,12 +27,13 @@ const ContactCard: React.FC<ContactCardProps> = ({
   messageUnreadAmount,
   time,
   onclickCallback,
-  select
+  select,
+  avatar
 }) => {
   return (
     <div className={`contact-card-container flex-center ${select? "contactSelect" : ""}`} onClick={onclickCallback}>
       <img
-        src="https://profilepicture7.com/img/img_dongman/1/528431439.jpg"
+        src={avatar || defaultAvatar}
         alt="avatar"
       />
       <div className="content-container flex-space-between-column">

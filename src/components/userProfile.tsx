@@ -15,6 +15,7 @@ type userProfileProps = {
         address: string;
         birthDate: string;
         website: string;
+        avatar: string;
       }
     | undefined;
 };
@@ -45,17 +46,21 @@ const UserProfile: React.FC<userProfileProps> = ({ data }) => {
     });
   };
 
-
   const sendChangePassword = () => {
     const passwordFormData = new FormData(
       document.querySelector("#change-password-form") as HTMLFormElement
     );
 
-    if(passwordFormData.get("newPassword") !== passwordFormData.get("repeatPassword")) {
+    if (
+      passwordFormData.get("newPassword") !==
+        passwordFormData.get("repeatPassword") ||
+      !passwordFormData.get("oldPassword")
+    ) {
       console.log(false);
       return;
     }
 
+    passwordFormData.append("email", data?.email ? data.email : "");
     passwordFormData.append("userToken", userToken as string);
     passwordFormData.append("dateChange", JSON.stringify(new Date()));
 
@@ -142,9 +147,21 @@ const UserProfile: React.FC<userProfileProps> = ({ data }) => {
               <p>Address</p>
               <input type="text" name="address" defaultValue={data?.address} />
             </div>
+            <div className="input-info-box">
+              <p>Avatar Link</p>
+              <input type="text" name="avatar" defaultValue={data?.avatar} />
+            </div>
           </form>
           <div className="user-account-footer flex-r-center">
-            <button>Reset</button>
+            <button
+              onClick={() =>
+                document
+                  .querySelector<HTMLFormElement>("#user-info-form")
+                  ?.reset()
+              }
+            >
+              Reset
+            </button>
             <button className="blue-btn" onClick={sendChangeProfile}>
               Save Change
             </button>
@@ -165,6 +182,7 @@ const UserProfile: React.FC<userProfileProps> = ({ data }) => {
                     name="oldPassword"
                     placeholder="Enter old password..."
                     required
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -176,6 +194,7 @@ const UserProfile: React.FC<userProfileProps> = ({ data }) => {
                     name="newPassword"
                     placeholder="Enter new password..."
                     required
+                    autoComplete="off"
                   />
                 </div>
                 <div className="input-info-box">
@@ -185,6 +204,7 @@ const UserProfile: React.FC<userProfileProps> = ({ data }) => {
                     name="repeatPassword"
                     placeholder="Enter repeat new password..."
                     required
+                    autoComplete="off"
                   />
                 </div>
               </div>

@@ -7,6 +7,8 @@ import App from "./router/App.tsx";
 import LoginPage from "./router/login.tsx";
 import SignUpPage from "./router/signup.tsx";
 
+import AddFriendProfile from "./components/addFriendProfile.tsx";
+
 // css
 import "./css/index.css";
 
@@ -32,6 +34,10 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <SignUpPage />,
   },
+  {
+    path: "/test",
+    element: <AddFriendProfile />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

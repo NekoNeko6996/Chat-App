@@ -22,6 +22,15 @@
     position: relative;
 }
 
+.user-background-img {
+    position: absolute;
+    height: 100% !important;
+    width: 100% !important;
+    z-index: 0;
+    
+    border-radius: 0 !important;
+}
+
 .aside-user-profile-avatar {
     width: 95%;
 
@@ -31,20 +40,54 @@
     padding: 15px 0 15px 0;
     border-radius: 10px;
     border: 1px solid #E5E9F2;
+    position: relative;
 
 }
 .aside-user-profile-avatar > h3 {
-    color: #49505C;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    font-size: 25px;
+    z-index: 3;
 }
 
 .aside-user-profile-avatar > span > button {
-    padding: 7px 20px 7px 20px;
+    padding: 6px 15px 6px 15px;
     margin: 0 10px 0 10px;
     border: 1px solid #E5E9F2;
     cursor: pointer;
+    z-index: 3;
+    border-radius: 4px;
+
+    position: relative;
+
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+    background: inherit;
+    overflow: hidden;
+    color: black;
+    text-shadow: 1px 1px 2px white;
+    font-size: 15px;
 }
+
+.aside-user-profile-avatar > span > button::after {
+    content: "";
+    position: absolute;
+    background: inherit;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .6);
+    filter: blur(10px);
+    margin: -20px;
+}
+
+.aside-user-profile-avatar > span > button > svg path{
+    color: black;
+}
+
 .aside-user-profile-avatar > span > button:hover {
-    background-color: #E5E9F2;
+    background-color: #e5e9f24b;
 }
 
 
@@ -54,16 +97,17 @@
 }
 
 .aside-user-profile-avatar > img {
-    height: 70px;
+    height: 90px;
     aspect-ratio: 1/1;
     border-radius: 50%;
+    z-index: 3;
+    border: 3px solid white;
 }
 
 /* ------------------- */
 .aside-user-info {
     width: 95%;
     margin-top: 20px;
-    
 }
 
 .aside-user-info > span {
